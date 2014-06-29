@@ -1,0 +1,3 @@
+.user-mention.highlight, .team-mention.highlight  { background: yellow !important; }
+.timeline-comment.highlight { border-color: yellow !important; }
+.timeline-comment.highlight:before { border-right-color: yellow !important; }

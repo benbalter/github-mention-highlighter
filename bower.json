@@ -1,0 +1,13 @@
+{
+  "name": "github-mention-highlighter",
+  "version": "0.0.1",
+  "authors": [
+    "Ben Balter <ben.balter@github.com>"
+  ],
+  "description": "Highlight user and team mentions on GitHub",
+  "main": "script.js",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~2.1.1"
+  }
+}
