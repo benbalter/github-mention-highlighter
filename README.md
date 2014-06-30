@@ -12,8 +12,9 @@ This Chrome extension automatically highlights any time you are mentioned on a G
 
 1. Clone down the repository
 2. Open Tools -> Extensions
-3. Select "Load unpacked extension"
-4. Navigate to the recently cloned folder and click select
+3. Check the "Developer Mode" option (if not already)
+4. Select "Load unpacked extension"
+5. Navigate to the recently cloned folder and click select
 
 That's it. There's no configuration necessary.
 
