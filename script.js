@@ -25,7 +25,7 @@
         mention = _ref[_i];
         $mention = $(mention);
         members = $mention.attr("aria-label").replace(" and ", " ").split(", ");
-        if ($.inArray(this.username, members)) {
+        if ($.inArray(this.username, members) !== -1) {
           mentions.push($mention);
         }
       }

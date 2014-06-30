@@ -12,7 +12,7 @@ class GitHubMentionHighlighter
     for mention in $(".team-mention")
       $mention = $(mention)
       members = $mention.attr("aria-label").replace(" and ", " ").split(", ")
-      mentions.push $mention if $.inArray @username, members
+      mentions.push $mention if $.inArray(@username, members) != -1
     mentions
 
   mentions: ->
