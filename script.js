@@ -29,7 +29,6 @@
           async: false,
           dataType: 'json',
           success: function(data) {
-            console.log($.inArray(this.username, data["members"]));
             if ($.inArray(this.username, data["members"]) !== -1) {
               return mentions.push($mention);
             }

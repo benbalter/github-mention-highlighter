@@ -16,7 +16,6 @@ class GitHubMentionHighlighter
         async: false
         dataType: 'json'
         success: (data) ->
-          console.log $.inArray(@username, data["members"])
           mentions.push $mention if $.inArray(@username, data["members"]) != -1
     mentions
 
