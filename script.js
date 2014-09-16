@@ -18,16 +18,22 @@
     };
 
     GitHubMentionHighlighter.prototype.teamMentions = function() {
-      var $mention, members, mention, mentions, _i, _len, _ref;
+      var $mention, mention, mentions, _i, _len, _ref;
       mentions = [];
       _ref = $(".team-mention");
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         mention = _ref[_i];
         $mention = $(mention);
-        members = $mention.attr("aria-label").replace(" and ", " ").split(", ");
-        if ($.inArray(this.username, members) !== -1) {
-          mentions.push($mention);
-        }
+        $.ajax({
+          url: $mention.data("url"),
+          async: false,
+          dataType: 'json',
+          success: function(data) {
+            if ($.inArray(this.username, data["members"])) {
+              return mentions.push($mention);
+            }
+          }
+        });
       }
       return mentions;
     };
