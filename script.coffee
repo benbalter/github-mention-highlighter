@@ -9,14 +9,20 @@ class GitHubMentionHighlighter
 
   teamMentions: ->
     mentions = []
+    members = []
     for mention in $(".team-mention")
       $mention = $(mention)
-      $.ajax
-        url: $mention.data("url")
-        async: false
-        dataType: 'json'
-        success: (data) ->
-          mentions.push $mention if $.inArray(@username, data["members"]) != -1
+      if $mention.attr("aria-label")
+        members = $mention.attr("aria-label").replace(" and ", " ").split(", ")
+      else if $mention.data("url")
+        $.ajax
+          url: $mention.data("url")
+          async: false
+          dataType: 'json'
+          cache: true
+          success: (data) =>
+            members = data["members"]
+      mentions.push $mention if $.inArray(@username, members) != -1
     mentions
 
   mentions: ->

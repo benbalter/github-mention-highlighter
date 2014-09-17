@@ -18,22 +18,30 @@
     };
 
     GitHubMentionHighlighter.prototype.teamMentions = function() {
-      var $mention, mention, mentions, _i, _len, _ref;
+      var $mention, members, mention, mentions, _i, _len, _ref,
+        _this = this;
       mentions = [];
+      members = [];
       _ref = $(".team-mention");
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         mention = _ref[_i];
         $mention = $(mention);
-        $.ajax({
-          url: $mention.data("url"),
-          async: false,
-          dataType: 'json',
-          success: function(data) {
-            if ($.inArray(this.username, data["members"]) !== -1) {
-              return mentions.push($mention);
+        if ($mention.attr("aria-label")) {
+          members = $mention.attr("aria-label").replace(" and ", " ").split(", ");
+        } else if ($mention.data("url")) {
+          $.ajax({
+            url: $mention.data("url"),
+            async: false,
+            dataType: 'json',
+            cache: true,
+            success: function(data) {
+              return members = data["members"];
             }
-          }
-        });
+          });
+        }
+        if ($.inArray(this.username, members) !== -1) {
+          mentions.push($mention);
+        }
       }
       return mentions;
     };
