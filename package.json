@@ -1,6 +1,6 @@
 {
   "name": "github-mention-highlighter",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Highlight user and team mentions on GitHub",
   "main": "script.js",
   "scripts": {
