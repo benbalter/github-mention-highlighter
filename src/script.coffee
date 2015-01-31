@@ -2,7 +2,7 @@ class GitHubMentionHighlighter
 
   userMentions: ->
     mentions = []
-    for mention in $(".user-mention")
+    for mention in $(".user-mention, .member-mention")
       $mention = $(mention)
       mentions.push $mention if $mention.text() == "@#{@username}"
     mentions
@@ -29,11 +29,11 @@ class GitHubMentionHighlighter
     $.merge @userMentions(), @teamMentions()
 
   constructor: ->
-    @username = $("#user-links .name").text().trim()
+    @username = $(".supportocat a, #user-links .name").text().trim()
 
     for $mention in @mentions()
       $mention.addClass("highlight")
-      $mention.parents(".timeline-comment").addClass("highlight")
+      $mention.parents(".timeline-comment, .timeline-entry").addClass("highlight")
 
 $ ->
   new GitHubMentionHighlighter()
