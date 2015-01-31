@@ -1,7 +1,9 @@
 .timeline-comment:not(.current-user) .user-mention.highlight,
 .timeline-comment:not(.current-user) .team-mention.highlight,
 .timeline-entry .member-mention.highlight,
-.timeline-entry .team-mention.highlight  {
+.timeline-entry .team-mention.highlight,
+.markdown-body .user-mention.highlight,
+.markdown-body .user-mention.highlight {
   background: yellow !important;
 }
 

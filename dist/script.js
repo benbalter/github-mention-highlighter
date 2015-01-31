@@ -9,7 +9,7 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         mention = _ref[_i];
         $mention = $(mention);
-        if ($mention.text() === ("@" + this.username)) {
+        if ($mention.text() === ("@" + (this.username()))) {
           mentions.push($mention);
         }
       }
@@ -39,7 +39,7 @@
             })(this)
           });
         }
-        if ($.inArray(this.username, members) !== -1) {
+        if ($.inArray(this.username(), members) !== -1) {
           mentions.push($mention);
         }
       }
@@ -50,9 +50,12 @@
       return $.merge(this.userMentions(), this.teamMentions());
     };
 
+    GitHubMentionHighlighter.prototype.username = function() {
+      return this._username || (this._username = $(".supportocat a, #user-links .name, .header-right .logged-in a").text().trim().replace("@", ""));
+    };
+
     function GitHubMentionHighlighter() {
       var $mention, _i, _len, _ref;
-      this.username = $(".supportocat a, #user-links .name").text().trim();
       _ref = this.mentions();
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         $mention = _ref[_i];
