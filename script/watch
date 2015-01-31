@@ -1,16 +1,3 @@
 #!/bin/sh
 
-cs() { coffee -w -o dist --map -c src/script.coffee ; }
-css() { scss --watch src/style.scss:dist/style.css; }
-
-cs &
-pid1=$!
-
-css &
-pid2=$!
-
-echo $pid1;
-echo $pid2;
-
-cleanup() { kill $pid1; kill $pid2; }
-trap cleanup EXIT
+grunt watch

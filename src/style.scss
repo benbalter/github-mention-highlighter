@@ -1,16 +1,16 @@
-.timeline-comment:not(.timeline-comment-current-user) .user-mention.highlight,
-.timeline-comment:not(.timeline-comment-current-user) .team-mention.highlight,
+.timeline-comment:not(.current-user) .user-mention.highlight,
+.timeline-comment:not(.current-user) .team-mention.highlight,
 .timeline-entry .member-mention.highlight,
 .timeline-entry .team-mention.highlight  {
   background: yellow !important;
 }
 
-.timeline-comment.highlight:not(.timeline-comment-current-user),
+.timeline-comment.highlight:not(.current-user),
 .timeline-entry.highlight {
   border-color: yellow !important;
 }
 
-.timeline-comment.highlight:not(.timeline-comment-current-user):before,
-.timeline-entry.highlight:before {
+.timeline-comment.highlight:not(.current-user):before,
+.timeline-entry.highlight .comment-header:before {
   border-right-color: yellow !important;
 }

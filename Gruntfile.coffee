@@ -17,9 +17,14 @@ module.exports = (grunt) ->
         tasks: 'sass'
     sass:
       dist:
+        options:
+          style: "compressed"
         files:
           'dist/style.css': 'src/style.scss'
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-contrib-sass'
+
+  grunt.registerTask 'build', ['coffee', 'sass']
+  grunt.registerTask 'default', ['build']
