@@ -8,9 +8,7 @@ This Chrome extension automatically highlights any time you are mentioned on a G
 
 ![Screenshot](https://cloud.githubusercontent.com/assets/282759/3424209/bbddde02-ffc3-11e3-8cf8-089867a503e7.png)
 
-That's it. There's no configuration necessary.
-
-Navigate to any GitHub issue you've been mentioned in and your mentions should now be more easily visbile.
+Navigate to any GitHub issue you've been mentioned in and your mentions should now be more easily visbile. There's no configuration necessary.
 
 ## Installation
 
