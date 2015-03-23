@@ -10,6 +10,10 @@ This Chrome extension automatically highlights any time you are mentioned on a G
 
 ## Installation
 
+Simply [visit the Chrome Web Store listing](https://chrome.google.com/webstore/detail/github-mention-highlighte/ojclbekffnkgbacniibdebdihhgenlkp) and click "Add". The extension will update automatically.
+
+## Developing locally
+
 1. Clone down the repository
 2. Open Tools -> Extensions
 3. Check the "Developer Mode" option (if not already)
