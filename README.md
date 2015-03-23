@@ -8,13 +8,13 @@ This Chrome extension automatically highlights any time you are mentioned on a G
 
 ![Screenshot](https://cloud.githubusercontent.com/assets/282759/3424209/bbddde02-ffc3-11e3-8cf8-089867a503e7.png)
 
-## Installation and use 
-
-Simply [visit the Chrome Web Store listing](https://chrome.google.com/webstore/detail/github-mention-highlighte/ojclbekffnkgbacniibdebdihhgenlkp) and click "Add". The extension will update automatically.
-
 That's it. There's no configuration necessary.
 
 Navigate to any GitHub issue you've been mentioned in and your mentions should now be more easily visbile.
+
+## Installation
+
+Simply [visit the Chrome Web Store listing](https://chrome.google.com/webstore/detail/github-mention-highlighte/ojclbekffnkgbacniibdebdihhgenlkp) and click "Add". The extension will update automatically.
 
 ## Developing locally
 
