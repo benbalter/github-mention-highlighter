@@ -4,7 +4,7 @@
 
 ## Usage
 
-This Chrome extension automatically highlights any time you are mentioned on a GitHub issue or pull request thread by highlighting your username, any team your a member of, and the border of any containing comment.
+This Chrome extension automatically highlights any time you are mentioned on a GitHub issue or pull request thread by highlighting your username, any team you're a member of, and the border of any containing comment.
 
 ![Screenshot](https://cloud.githubusercontent.com/assets/282759/3424209/bbddde02-ffc3-11e3-8cf8-089867a503e7.png)
 
