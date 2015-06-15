@@ -29,7 +29,10 @@ class GitHubMentionHighlighter
     $.merge @userMentions(), @teamMentions()
 
   username: ->
-    @_username ||= $(".supportocat a, #user-links .name, .header-right .logged-in a").text().trim().replace("@", "")
+    @_username ||= (
+      $('meta[name=user-login]').attr("content") ||
+      $(".supportocat a, .header-right .logged-in a").text().trim().replace("@", "")
+    )
 
   constructor: ->
     for $mention in @mentions()

@@ -51,7 +51,7 @@
     };
 
     GitHubMentionHighlighter.prototype.username = function() {
-      return this._username || (this._username = $(".supportocat a, #user-links .name, .header-right .logged-in a").text().trim().replace("@", ""));
+      return this._username || (this._username = $('meta[name=user-login]').attr("content") || $(".supportocat a, .header-right .logged-in a").text().trim().replace("@", ""));
     };
 
     function GitHubMentionHighlighter() {
