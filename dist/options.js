@@ -26,8 +26,6 @@
 
   document.getElementById('save').addEventListener('click', saveOptions);
 
-  alert('here');
-
 }).call(this);
 
 //# sourceMappingURL=options.js.map

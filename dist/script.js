@@ -21,8 +21,6 @@
 
     GitHubMentionHighlighter.prototype.highlight = function() {
       var $mention, _i, _len, _ref, _results;
-      console.log(this.options);
-      console.log(this.mentions());
       _ref = this.mentions();
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -51,7 +49,6 @@
     };
 
     function GitHubMentionHighlighter() {
-      console.log("LOADED");
       chrome.storage.sync.get({
         token: "",
         login: "",

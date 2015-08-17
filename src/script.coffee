@@ -10,8 +10,6 @@ class GitHubMentionHighlighter
     mentions
 
   highlight: ->
-    console.log @options
-    console.log @mentions()
     for $mention in @mentions()
       $mention.addClass("highlight")
       $mention.parents(".timeline-comment, .timeline-entry").addClass("highlight")
@@ -29,7 +27,6 @@ class GitHubMentionHighlighter
           @highlight()
 
   constructor: ->
-    console.log "LOADED"
     chrome.storage.sync.get
       token: "",
       login: "",
