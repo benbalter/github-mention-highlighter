@@ -1,67 +1,69 @@
 (function() {
-  var GitHubMentionHighlighter;
+  var GitHubMentionHighlighter,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   GitHubMentionHighlighter = (function() {
-    GitHubMentionHighlighter.prototype.userMentions = function() {
-      var $mention, mention, mentions, _i, _len, _ref;
-      mentions = [];
-      _ref = $(".user-mention, .member-mention");
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        mention = _ref[_i];
-        $mention = $(mention);
-        if ($mention.text() === ("@" + (this.username()))) {
-          mentions.push($mention);
-        }
-      }
-      return mentions;
-    };
-
-    GitHubMentionHighlighter.prototype.teamMentions = function() {
-      var $mention, members, mention, mentions, _i, _len, _ref;
-      mentions = [];
-      members = [];
-      _ref = $(".team-mention");
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        mention = _ref[_i];
-        $mention = $(mention);
-        if ($mention.attr("aria-label")) {
-          members = $mention.attr("aria-label").replace(" and ", " ").split(", ");
-        } else if ($mention.data("url")) {
-          $.ajax({
-            url: $mention.data("url"),
-            async: false,
-            dataType: 'json',
-            cache: true,
-            success: (function(_this) {
-              return function(data) {
-                return members = data["members"];
-              };
-            })(this)
-          });
-        }
-        if ($.inArray(this.username(), members) !== -1) {
-          mentions.push($mention);
-        }
-      }
-      return mentions;
-    };
-
     GitHubMentionHighlighter.prototype.mentions = function() {
-      return $.merge(this.userMentions(), this.teamMentions());
+      var $mention, haystack, mention, mentions, text, _i, _len, _ref;
+      haystack = [this.options["login"]].concat(this.options["teams"]);
+      mentions = [];
+      _ref = $(".user-mention, .member-mention, .team-mention, a");
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        mention = _ref[_i];
+        $mention = $(mention);
+        text = $mention.text();
+        if (text[0] === "@" && __indexOf.call(haystack, text) >= 0) {
+          mentions.push($mention);
+        }
+      }
+      return mentions;
     };
 
-    GitHubMentionHighlighter.prototype.username = function() {
-      return this._username || (this._username = $('meta[name=user-login]').attr("content") || $(".supportocat a, .header-right .logged-in a").text().trim().replace("@", ""));
-    };
-
-    function GitHubMentionHighlighter() {
-      var $mention, _i, _len, _ref;
+    GitHubMentionHighlighter.prototype.highlight = function() {
+      var $mention, _i, _len, _ref, _results;
       _ref = this.mentions();
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         $mention = _ref[_i];
         $mention.addClass("highlight");
-        $mention.parents(".timeline-comment, .timeline-entry").addClass("highlight");
+        _results.push($mention.parents(".timeline-comment, .timeline-entry").addClass("highlight"));
       }
+      return _results;
+    };
+
+    GitHubMentionHighlighter.prototype.update = function() {
+      return $.getJSON("https://api.github.com/user?access_token=" + this.options["token"], (function(_this) {
+        return function(data) {
+          _this.options["login"] = "@" + data["login"];
+          return $.getJSON("https://api.github.com/user/teams?access_token=" + _this.options["token"], function(data) {
+            _this.options["teams"] = data.map(function(team) {
+              return "@" + team["organization"]["login"] + "/" + team["slug"];
+            });
+            _this.options["lastChecked"] = Date.now();
+            return chrome.storage.sync.set(_this.options, function() {
+              return _this.highlight();
+            });
+          });
+        };
+      })(this));
+    };
+
+    function GitHubMentionHighlighter() {
+      chrome.storage.sync.get({
+        token: "",
+        login: "",
+        teams: [],
+        lastChecked: 0
+      }, (function(_this) {
+        return function(items) {
+          _this.options = items;
+          if (Date.now() > _this.options["lastChecked"] + (1000 * 60 * 60)) {
+            return _this.update();
+          } else {
+            return _this.highlight();
+          }
+        };
+      })(this));
     }
 
     return GitHubMentionHighlighter;
