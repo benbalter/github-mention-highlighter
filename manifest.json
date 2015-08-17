@@ -2,11 +2,16 @@
   "name": "GitHub Mention Highlighter",
   "version": "0.1.1",
   "description": "Highlight user and team mentions on GitHub",
-  "permissions": ["https://github.com/*", "https://*.githubapp.com/*"],
+  "permissions": ["https://github.com/*", "https://*.githubapp.com/*", "https://mail.google.com/*", "storage"],
   "content_scripts": [{
-    "matches": ["https://github.com/*", "https://*.githubapp.com/*"],
-    "js": ["vendor/jquery/dist/jquery.js","dist/script.js"],
+    "matches": ["https://github.com/*", "https://*.githubapp.com/*", "https://mail.google.com/*"],
+    "js": ["vendor/jquery/dist/jquery.js", "dist/script.js"],
     "css": ["dist/style.css"]
   }],
-  "manifest_version": 2
+  "manifest_version": 2,
+  "options_page": "dist/options.html",
+  "options_ui": {
+    "page": "dist/options.html",
+    "chrome_style": true
+  }
 }
