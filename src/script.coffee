@@ -35,7 +35,7 @@ class GitHubMentionHighlighter
     , (items) =>
       @options = items
 
-      if Date.now() > @options["lastChecked"] + (1000 * 60 * 60)
+      if Date.now() > @options["lastChecked"] + (1000 * 60 * 60 * 24)
         @update()
       else
         @highlight()
