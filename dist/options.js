@@ -3,7 +3,8 @@
 
   saveOptions = function() {
     return chrome.storage.sync.set({
-      token: document.getElementById('token').value
+      token: document.getElementById('token').value,
+      lastChecked: 0
     }, function() {
       var status;
       status = document.getElementById('status');

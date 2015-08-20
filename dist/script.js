@@ -11,7 +11,7 @@
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         mention = _ref[_i];
         $mention = $(mention);
-        text = $mention.text();
+        text = $mention.text().toLowerCase();
         if (text[0] === "@" && __indexOf.call(haystack, text) >= 0) {
           mentions.push($mention);
         }
@@ -34,10 +34,10 @@
     GitHubMentionHighlighter.prototype.update = function() {
       return $.getJSON("https://api.github.com/user?access_token=" + this.options["token"], (function(_this) {
         return function(data) {
-          _this.options["login"] = "@" + data["login"];
+          _this.options["login"] = "@" + (data["login"].toLowerCase());
           return $.getJSON("https://api.github.com/user/teams?access_token=" + _this.options["token"], function(data) {
             _this.options["teams"] = data.map(function(team) {
-              return "@" + team["organization"]["login"] + "/" + team["slug"];
+              return "@" + (team["organization"]["login"].toLowerCase()) + "/" + (team["slug"].toLowerCase());
             });
             _this.options["lastChecked"] = Date.now();
             return chrome.storage.sync.set(_this.options, function() {
@@ -57,7 +57,7 @@
       }, (function(_this) {
         return function(items) {
           _this.options = items;
-          if (Date.now() > _this.options["lastChecked"] + (1000 * 60 * 60)) {
+          if (Date.now() > _this.options["lastChecked"] + (1000 * 60 * 60 * 24)) {
             return _this.update();
           } else {
             return _this.highlight();
