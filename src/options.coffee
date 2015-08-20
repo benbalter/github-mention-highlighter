@@ -1,6 +1,7 @@
 saveOptions = ->
   chrome.storage.sync.set
-    token: document.getElementById('token').value
+    token: document.getElementById('token').value,
+    lastChecked: 0 # force a refresh on next load
   , ->
     status = document.getElementById('status')
     status.textContent = 'Options saved.'
@@ -10,7 +11,7 @@ saveOptions = ->
 
 restoreOptions = ->
   chrome.storage.sync.get
-    token: ""
+    token: "",
   , (items) ->
     document.getElementById('token').value = items.token
 
