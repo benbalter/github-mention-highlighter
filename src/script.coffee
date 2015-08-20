@@ -5,7 +5,7 @@ class GitHubMentionHighlighter
     mentions = []
     for mention in $(".user-mention, .member-mention, .team-mention, a")
       $mention = $(mention)
-      text = $mention.text()
+      text = $mention.text().toLowerCase()
       mentions.push $mention if text[0] == "@" && text in haystack
     mentions
 
@@ -16,11 +16,11 @@ class GitHubMentionHighlighter
 
   update: ->
     $.getJSON "https://api.github.com/user?access_token=#{@options["token"]}", (data) =>
-      @options["login"] = "@#{data["login"]}"
+      @options["login"] = "@#{data["login"].toLowerCase()}"
 
       $.getJSON "https://api.github.com/user/teams?access_token=#{@options["token"]}", (data) =>
         @options["teams"] = data.map (team) ->
-          "@#{team["organization"]["login"]}/#{team["slug"]}"
+          "@#{team["organization"]["login"].toLowerCase()}/#{team["slug"].toLowerCase()}"
 
         @options["lastChecked"] = Date.now()
         chrome.storage.sync.set @options, =>
