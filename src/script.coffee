@@ -35,6 +35,8 @@ class GitHubMentionHighlighter
     , (items) =>
       @options = items
 
+      if @options["token"] == ""
+        console.warn "GitHub Mention Highlighter: Please specify a personal access token via the options page."
       if Date.now() > @options["lastChecked"] + (1000 * 60 * 60 * 24)
         @update()
       else

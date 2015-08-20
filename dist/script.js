@@ -57,6 +57,9 @@
       }, (function(_this) {
         return function(items) {
           _this.options = items;
+          if (_this.options["token"] === "") {
+            console.warn("GitHub Mention Highlighter: Please specify a personal access token via the options page.");
+          }
           if (Date.now() > _this.options["lastChecked"] + (1000 * 60 * 60 * 24)) {
             return _this.update();
           } else {
