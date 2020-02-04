@@ -32,20 +32,32 @@
     };
 
     GitHubMentionHighlighter.prototype.update = function() {
-      return $.getJSON("https://api.github.com/user?access_token=" + this.options["token"], (function(_this) {
-        return function(data) {
-          _this.options["login"] = "@" + (data["login"].toLowerCase());
-          return $.getJSON("https://api.github.com/user/teams?access_token=" + _this.options["token"], function(data) {
-            _this.options["teams"] = data.map(function(team) {
-              return "@" + (team["organization"]["login"].toLowerCase()) + "/" + (team["slug"].toLowerCase());
-            });
-            _this.options["lastChecked"] = Date.now();
-            return chrome.storage.sync.set(_this.options, function() {
+      return $.ajax({
+        dataType: 'json',
+        url: "https://api.github.com/user",
+        headers: {
+          Authorization: "token " + this.options["token"]
+        },
+        success: (function(_this) {
+          return function(data) {
+            _this.options["login"] = "@" + (data["login"].toLowerCase());
+            return $.ajax({
+              dataType: 'json',
+              url: "https://api.github.com/user/teams",
+              headers: {
+                Authorization: "token " + _this.options["token"]
+              },
+              success: function(data) {
+                return _this.options["teams"] = data.map(function(team) {
+                  return "@" + (team["organization"]["login"].toLowerCase()) + "/" + (team["slug"].toLowerCase());
+                });
+              }
+            }, _this.options["lastChecked"] = Date.now(), chrome.storage.sync.set(_this.options, function() {
               return _this.highlight();
-            });
-          });
-        };
-      })(this));
+            }));
+          };
+        })(this)
+      });
     };
 
     function GitHubMentionHighlighter() {

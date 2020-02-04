@@ -15,16 +15,26 @@ class GitHubMentionHighlighter
       $mention.parents(".timeline-comment, .timeline-entry").addClass("highlight")
 
   update: ->
-    $.getJSON "https://api.github.com/user?access_token=#{@options["token"]}", (data) =>
-      @options["login"] = "@#{data["login"].toLowerCase()}"
+    $.ajax
+      dataType: 'json'
+      url: "https://api.github.com/user"
+      headers: 
+        Authorization: "token #{@options["token"]}"
+      success: (data) =>
+        @options["login"] = "@#{data["login"].toLowerCase()}"
 
-      $.getJSON "https://api.github.com/user/teams?access_token=#{@options["token"]}", (data) =>
-        @options["teams"] = data.map (team) ->
-          "@#{team["organization"]["login"].toLowerCase()}/#{team["slug"].toLowerCase()}"
+        $.ajax
+          dataType: 'json'
+          url: "https://api.github.com/user/teams"
+          headers: 
+            Authorization: "token #{@options["token"]}"
+          success: (data) =>
+            @options["teams"] = data.map (team) ->
+              "@#{team["organization"]["login"].toLowerCase()}/#{team["slug"].toLowerCase()}"
 
-        @options["lastChecked"] = Date.now()
-        chrome.storage.sync.set @options, =>
-          @highlight()
+          @options["lastChecked"] = Date.now()
+          chrome.storage.sync.set @options, =>
+            @highlight()
 
   constructor: ->
     chrome.storage.sync.get

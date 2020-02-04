@@ -1,6 +1,6 @@
 {
   "name": "github-mention-highlighter",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Highlight user and team mentions on GitHub",
   "main": "script.js",
   "scripts": {
@@ -20,10 +20,10 @@
     "scss": "~0.2.4"
   },
   "devDependencies": {
-    "grunt": "~0.4.5",
+    "grunt": "^0.4.5",
     "grunt-contrib-coffee": "~0.12.0",
-    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-sass": "~0.8.1",
-    "grunt-contrib-copy": "^0.8.0"
+    "grunt-contrib-watch": "~0.6.1"
   }
 }
