@@ -6,11 +6,11 @@ class GitHubMentionHighlighter {
   login: string = "";
   teams: Array<string> = [];
   lastChecked: number = 0;
-  checkInterval: 86400000; //1000 * 60 * 60 * 24
+  checkInterval: number = 86400000; //1000 * 60 * 60 * 24
 
   mentions() {
     const handles = this.teams.concat([this.login]);
-    const classes = ".user-mention, .member-mention, .team-mention, a";
+    const classes = ".user-mention, .member-mention, .team-mention";
     let mentions = $(classes)
       .toArray()
       .map((mention) => {
@@ -58,31 +58,27 @@ class GitHubMentionHighlighter {
   }
 
   private getOptions(callback: Function) {
-    return chrome.storage.sync.get(
-      {
-        token: this.token,
-        login: this.login,
-        teams: this.teams,
-        lastChecked: this.lastChecked,
-      },
-      (options) => {
-        this.token = options.token;
-        this.login = options.login;
-        this.teams = options.teams;
-        this.lastChecked = options.lastChecked;
+    return chrome.storage.sync.get(this.options(), (options) => {
+      this.token = options.token;
+      this.login = options.login;
+      this.teams = options.teams;
+      this.lastChecked = options.lastChecked;
 
-        callback();
-      }
-    );
+      callback();
+    });
   }
 
-  private setOptions() {
-    chrome.storage.sync.set({
+  private options() {
+    return {
       token: this.token,
       login: this.login,
       teams: this.teams,
       lastChecked: this.lastChecked,
-    });
+    };
+  }
+
+  private setOptions() {
+    chrome.storage.sync.set(this.options());
   }
 
   update() {
