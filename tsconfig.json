@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es6", "dom", "es2017"]
+  },
+  "include": ["src/*"]
+}
