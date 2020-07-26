@@ -1,50 +1,62 @@
 import * as $ from "jquery";
 import "./style.scss";
 
-class GitHubMentionHighlighter {
-  token: string = "";
-  login: string = "";
-  teams: Array<string> = [];
-  lastChecked: number = 0;
-  checkInterval: number = 86400000; //1000 * 60 * 60 * 24
+interface Options {
+  token: string;
+  login: string;
+  teams: string[];
+  lastChecked: number;
+}
 
-  mentions() {
-    const handles = this.teams.concat([this.login]);
+interface User {
+  login: string;
+}
+
+class GitHubMentionHighlighter implements Options {
+  token = "";
+  login = "";
+  teams: string[] = [];
+  lastChecked = 0;
+  checkInterval = 86400000; //1000 * 60 * 60 * 24
+
+  handles(): string[] {
+    return this.teams.concat([this.login]);
+  }
+
+  mentions(): HTMLElement[] {
     const classes = ".user-mention, .member-mention, .team-mention";
-    let mentions = $(classes)
-      .toArray()
-      .map((mention) => {
-        return $(mention);
-      });
+    const handles = this.handles();
+    const mentions = $(classes).toArray();
 
     return mentions.filter((mention) => {
-      const text = mention.text().toLowerCase();
+      const text = mention.innerText.toLowerCase();
       return text[0] === "@" && handles.includes(text);
     });
   }
 
   highlight() {
     const classes = ".timeline-comment, .timeline-entry";
-    for (let mention of this.mentions()) {
-      mention.addClass("highlight");
-      mention.parents(classes).addClass("highlight");
+    for (const mention of this.mentions()) {
+      const $mention = $(mention);
+      $mention.addClass("highlight");
+      $mention.parents(classes).addClass("highlight");
     }
   }
 
-  private getUser(successCallback: Function) {
+  private getUser(successCallback: (User) => void) {
     return $.ajax({
       dataType: "json",
       url: "https://api.github.com/user",
       headers: {
         Authorization: `token ${this.token}`,
       },
-      success: (data) => {
+      success: (data: User) => {
         successCallback(data);
       },
     });
   }
 
-  private getTeams(successCallback: Function) {
+  private getTeams(successCallback: (teams: string[]) => void) {
     return $.ajax({
       dataType: "json",
       url: "https://api.github.com/user/teams",
@@ -52,23 +64,28 @@ class GitHubMentionHighlighter {
         Authorization: `token ${this.token}`,
       },
       success: (data) => {
-        successCallback(data);
+        const teams: string[] = data.map((team) => {
+          const org = team["organization"]["login"].toLowerCase();
+          const slug = team.slug.toLowerCase();
+          return `@${org}/${slug}`;
+        });
+        successCallback(teams);
       },
     });
   }
 
-  private getOptions(callback: Function) {
+  private getOptions(callback: (Options) => void) {
     return chrome.storage.sync.get(this.options(), (options) => {
       this.token = options.token;
       this.login = options.login;
       this.teams = options.teams;
       this.lastChecked = options.lastChecked;
 
-      callback();
+      callback(options);
     });
   }
 
-  private options() {
+  private options(): Options {
     return {
       token: this.token,
       login: this.login,
@@ -82,16 +99,11 @@ class GitHubMentionHighlighter {
   }
 
   update() {
-    this.getUser((data) => {
-      this.login = `@${data["login"].toLowerCase()}`;
+    this.getUser((user) => {
+      this.login = `@${user["login"].toLowerCase()}`;
 
-      this.getTeams((teams) => {
-        this.teams = teams.map((team) => {
-          const org = team["organization"]["login"].toLowerCase();
-          const slug = team["slug"].toLowerCase();
-          return `@${org}/${slug}`;
-        });
-
+      this.getTeams((teams: string[]) => {
+        this.teams = teams;
         this.lastChecked = Date.now();
         this.setOptions();
         this.highlight();
@@ -99,7 +111,7 @@ class GitHubMentionHighlighter {
     });
   }
 
-  shouldUpdate() {
+  shouldUpdate(): boolean {
     return Date.now() > this.lastChecked + this.checkInterval;
   }
 

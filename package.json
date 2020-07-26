@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch --mode=development",
-    "test": "npx jest"
+    "test": "eslint ./src --ext .js,.jsx,.ts,.tsx",
+    "fix": "eslint ./src --fix --ext .js,.jsx,.ts,.tsx"
   },
   "repository": {
     "type": "git",
@@ -25,8 +26,11 @@
   "devDependencies": {
     "@types/chrome": "0.0.122",
     "@types/jquery": "^3.3.33",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
     "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^4.0.0",
+    "eslint": "^7.5.0",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
     "style-loader": "^1.2.1",
