@@ -1,22 +1,20 @@
-import * as $ from "jquery";
+const token = <HTMLInputElement>document.getElementById("token");
+const options = {
+  token: token.value,
+  lastChecked: 0,
+};
 
 const saveOptions = () =>
-  chrome.storage.sync.set(
-    {
-      token: $("#token").val(),
-      lastChecked: 0,
-    }, // force a refresh on next load
-    function () {
-      const status = $("#status");
-      status.text("Options saved.");
-      return setTimeout(() => status.text(""), 750);
-    }
-  );
+  chrome.storage.sync.set(options, () => {
+    const status = <HTMLInputElement>document.getElementById("status");
+    status.innerText = "Options saved.";
+    setTimeout(() => (status.innerText = ""), 750);
+  });
 
 const restoreOptions = () =>
-  chrome.storage.sync.get({ token: "" }, (items) =>
-    $("#token").val(items.token)
-  );
+  chrome.storage.sync.get(options, (items) => {
+    token.value = items.token;
+  });
 
-$("#save").click(saveOptions);
-$(restoreOptions);
+document.addEventListener("DOMContentLoaded", restoreOptions);
+document.getElementById("save").addEventListener("click", saveOptions);
