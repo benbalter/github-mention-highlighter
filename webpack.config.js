@@ -12,9 +12,10 @@ module.exports = {
     path: path.join(__dirname, "./dist/"),
   },
   module: {
-    rules: [{
+    rules: [
+      {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: "babel-loader",
         exclude: /node_modules/,
       },
       {
@@ -28,9 +29,11 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{
-        from: "src/options.html"
-      }],
+      patterns: [
+        {
+          from: "src/options.html",
+        },
+      ],
     }),
   ],
 };
