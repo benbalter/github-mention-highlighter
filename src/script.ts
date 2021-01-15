@@ -12,6 +12,15 @@ interface User {
   login: string;
 }
 
+interface Team {
+  slug: string;
+  organization: Organization;
+}
+
+interface Organization {
+  login: string;
+}
+
 class GitHubMentionHighlighter implements Options {
   token = "";
   login = "";
@@ -43,7 +52,7 @@ class GitHubMentionHighlighter implements Options {
     }
   }
 
-  private getUser(successCallback: (User) => void) {
+  private getUser(successCallback: (user: User) => void) {
     return $.ajax({
       dataType: "json",
       url: "https://api.github.com/user",
@@ -52,19 +61,19 @@ class GitHubMentionHighlighter implements Options {
       },
       success: (data: User) => {
         successCallback(data);
-      },
+      }
     });
   }
 
   private getTeams(successCallback: (teams: string[]) => void) {
     return $.ajax({
       dataType: "json",
-      url: "https://api.github.com/user/teams",
+      url: "https://api.github.com/user/teams?per_page=100",
       headers: {
         Authorization: `token ${this.token}`,
       },
       success: (data) => {
-        const teams: string[] = data.map((team) => {
+        const teams: string[] = data.map((team: Team) => {
           const org = team["organization"]["login"].toLowerCase();
           const slug = team.slug.toLowerCase();
           return `@${org}/${slug}`;
@@ -74,14 +83,14 @@ class GitHubMentionHighlighter implements Options {
     });
   }
 
-  private getOptions(callback: (Options) => void) {
+  private getOptions(callback: (options: Options) => void) {
     return chrome.storage.sync.get(this.options(), (options) => {
       this.token = options.token;
       this.login = options.login;
       this.teams = options.teams;
       this.lastChecked = options.lastChecked;
 
-      callback(options);
+      callback(<Options>options);
     });
   }
 

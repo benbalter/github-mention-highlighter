@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "Highlight user and team mentions on GitHub",
   "permissions": [
-    "https://github.com/*",
+    "https://*.github.com/*",
     "https://*.githubapp.com/*",
     "https://mail.google.com/*",
     "storage"
@@ -22,10 +22,15 @@
     "128": "img/icon-128.png"
   },
   "manifest_version": 2,
-  "options_page": "dist/options.html",
   "options_ui": {
     "page": "dist/options.html",
-    "chrome_style": true
+    "browser_style": true
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "github-mention-highlighter@balter.com",
+      "strict_min_version": "42.0"
+    }
+  }
 }
