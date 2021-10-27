@@ -2,6 +2,8 @@
 
 *Highlight user and team mentions on GitHub for easier skimming*
 
+**I'm very happy to say, this feature is now [native to GitHub.com](https://twitter.com/github/status/1446164732315066371) - no extension needed! 🎉**
+
 ## Usage
 
 This Chrome extension automatically highlights any time you are mentioned on a GitHub issue or pull request thread by highlighting your username, any team you're a member of, and the border of any containing comment.
