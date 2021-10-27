@@ -2,7 +2,9 @@
 
 *Highlight user and team mentions on GitHub for easier skimming*
 
-**I'm very happy to say, this feature is now [native to GitHub.com](https://twitter.com/github/status/1446164732315066371) - no extension needed! 🎉**
+---
+
+# I'm very happy to say, this feature is now [native to GitHub.com](https://twitter.com/github/status/1446164732315066371) - no extension needed! 🎉
 
 ## Usage
 
